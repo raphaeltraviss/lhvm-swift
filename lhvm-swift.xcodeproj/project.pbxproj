@@ -42,6 +42,7 @@
 		6462C7F72052E2740040CBB9 /* stream_parameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stream_parameter.swift; sourceTree = "<group>"; };
 		6462C7F92052E2B30040CBB9 /* constant_value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = constant_value.swift; sourceTree = "<group>"; };
 		6462C7FD2052E8940040CBB9 /* binary_transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = binary_transform.swift; sourceTree = "<group>"; };
+		648AC047205DB54700A1CC48 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		64B34A91204C6353002CE380 /* lhvm_swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lhvm_swift.swift; sourceTree = "<group>"; };
 		64B34A93204C63C1002CE380 /* appkit_sampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appkit_sampler.swift; sourceTree = "<group>"; };
 		64B34A95204C64A7002CE380 /* op_stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = op_stack.swift; sourceTree = "<group>"; };
@@ -91,6 +92,7 @@
 		64FCE2192045DB9D00BEECDD = {
 			isa = PBXGroup;
 			children = (
+				648AC047205DB54700A1CC48 /* LICENSE */,
 				64B34A99204C72FD002CE380 /* numberforth_implementation.md */,
 				64FCE23D2045DBB400BEECDD /* numberforth_design.md */,
 				64FCE2252045DB9D00BEECDD /* lhvm-swift */,
