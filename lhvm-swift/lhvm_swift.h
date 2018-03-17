@@ -1,11 +1,3 @@
-//
-//  lhvm_swift.h
-//  lhvm-swift
-//
-//  Created by Raphael on 2/27/18.
-//  Copyright © 2018 Skyleaf Design LLC. All rights reserved.
-//
-
 #import <Cocoa/Cocoa.h>
 
 //! Project version number for lhvm_swift.
