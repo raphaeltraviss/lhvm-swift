@@ -12,6 +12,8 @@ enum StreamParameter: CustomStringConvertible {
   case loop_count(Int)
   case duration(Double)
   case interval(Double)
+  case sawness(Double)
+  case squareness(Double)
   
   var description: String {
     switch self {
@@ -23,6 +25,10 @@ enum StreamParameter: CustomStringConvertible {
     case .loop_count(let value): return "loop count \(value)"
     case .duration(let value): return "duration \(value)"
     case .interval(let value): return "interval \(value)"
+      
+    // Bogus parameters for testing.
+    case .sawness(let value): return "sawness \(value)"
+    case .squareness(let value): return "squareness \(value)"
     }
   }
 }
