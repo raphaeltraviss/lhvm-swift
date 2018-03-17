@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		64526042205C101200B4B211 /* schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64526041205C101200B4B211 /* schema.swift */; };
-		64526044205C123600B4B211 /* Sampleable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64526043205C123600B4B211 /* Sampleable.swift */; };
 		6462C7F02052E1EC0040CBB9 /* stream_protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6462C7EF2052E1EC0040CBB9 /* stream_protocol.swift */; };
 		6462C7F22052E1FE0040CBB9 /* sample_value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6462C7F12052E1FE0040CBB9 /* sample_value.swift */; };
 		6462C7F42052E2070040CBB9 /* unary_transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6462C7F32052E2070040CBB9 /* unary_transform.swift */; };
@@ -35,7 +34,6 @@
 
 /* Begin PBXFileReference section */
 		64526041205C101200B4B211 /* schema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = schema.swift; sourceTree = "<group>"; };
-		64526043205C123600B4B211 /* Sampleable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sampleable.swift; sourceTree = "<group>"; };
 		6462C7EF2052E1EC0040CBB9 /* stream_protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stream_protocol.swift; sourceTree = "<group>"; };
 		6462C7F12052E1FE0040CBB9 /* sample_value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sample_value.swift; sourceTree = "<group>"; };
 		6462C7F32052E2070040CBB9 /* unary_transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = unary_transform.swift; sourceTree = "<group>"; };
@@ -119,7 +117,6 @@
 				64FCE2272045DB9D00BEECDD /* Info.plist */,
 				64B34A93204C63C1002CE380 /* appkit_sampler.swift */,
 				64526041205C101200B4B211 /* schema.swift */,
-				64526043205C123600B4B211 /* Sampleable.swift */,
 			);
 			path = "lhvm-swift";
 			sourceTree = "<group>";
@@ -248,7 +245,6 @@
 				6462C7FE2052E8940040CBB9 /* binary_transform.swift in Sources */,
 				6462C7F22052E1FE0040CBB9 /* sample_value.swift in Sources */,
 				64526042205C101200B4B211 /* schema.swift in Sources */,
-				64526044205C123600B4B211 /* Sampleable.swift in Sources */,
 				6462C7F42052E2070040CBB9 /* unary_transform.swift in Sources */,
 				6462C7F02052E1EC0040CBB9 /* stream_protocol.swift in Sources */,
 				64B34A92204C6353002CE380 /* lhvm_swift.swift in Sources */,

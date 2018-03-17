@@ -20,15 +20,3 @@ class AppKitSampler: NSView {
     return AppKitSample(mouse_x: 1.0, mouse_y: 1.0, time_elapsed: 100.0, time_delta: 0.23, keys_pressed: [45,46])
   }
 }
-
-extension Encodable {
-  subscript(key: String) -> Any? {
-    return dictionary[key]
-  }
-  var data: Data {
-    return try! JSONEncoder().encode(self)
-  }
-  var dictionary: [String: Any] {
-    return (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] ?? [:]
-  }
-}
