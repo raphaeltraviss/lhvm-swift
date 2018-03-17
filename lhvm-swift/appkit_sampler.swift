@@ -9,6 +9,10 @@ struct AppKitSample {
   var keys_pressed: [Int] = []
 }
 
+
+// @TODO: this should be a protocol that we can extend NSView to provide.
+// Maybe even a generic "UISampler", that the NSView implementation can provide.
+// Maybe LHVM could provide this subclass itself: NSViewSampler
 class AppKitSampler: NSView {
   // @TODO: create methods for getting an AppKitSampleState struct out of the
   // NSView.

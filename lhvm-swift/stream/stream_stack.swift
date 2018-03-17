@@ -11,6 +11,11 @@ enum StreamOp<PlatformSample, SchemaSample, Currency>{
   case map(UnaryTransform<Currency>)
   case combine(BinaryTransform<Currency>)
   case bind(StreamParameter)
-  
-  // @TODO: how do we implement multiplex, sequence, spiral, etc?
+}
+
+
+extension Array where Element == StreamOp<AppKitSample, HeightmapSample, Double> {
+  func evaluate() -> (AppKitSample, HeightmapSample) -> Double {
+    return { (user_sample, app_sample) in return 1.0 }
+  }
 }
