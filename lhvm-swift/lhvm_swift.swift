@@ -28,8 +28,12 @@ final class LHVM<SchemaSample, Currency> {
   
   // MARK: private state and internal API.
   
-  private var _ops = OpStack()
+  // @TODO: ops should be private... after I implement add/remove Collection API.
+  // Evaluate and cache a new kernel, every time the stack is mutated.
+  var ops = OpStack()
   private var ui_sampler: AppKitSampler?
+  
+  // Cached, evaluated kernel from the OpStack.
   private var kernel: ComputeKernel?
 }
 
@@ -39,17 +43,9 @@ final class LHVM<SchemaSample, Currency> {
 extension LHVM where SchemaSample == HeightmapSample, Currency == Double {
   typealias HeightmapOpstack = [StreamOp<AppKitSample, HeightmapSample, Double>]
   
-  var ops: HeightmapOpstack {
-    get { return self._ops }
-    set {
-      self._ops = ops
-      self.kernel = ops.evaluate()
-    }
-  }
   func sample(at app_sample: SchemaSample) -> Double {
     let ui_sample = self.ui_sampler?.sample() ?? AppKitSample()
-    guard self.kernel != nil else { return 0.0 }
-    return self.kernel!(ui_sample, app_sample)
+    return ops.evaluate()(ui_sample, app_sample)
   }
   
   func sample(buffer: [SchemaSample]) -> [Currency] {

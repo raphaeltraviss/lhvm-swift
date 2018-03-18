@@ -1,7 +1,5 @@
-struct HeightmapSample {
-  var x_cycle: Double
-  var y_cycle: Double
-}
+// First is the x_cycle, second is the y_cycle.
+typealias HeightmapSample = (Double, Double)
 
 class HeightmapSchema {
   

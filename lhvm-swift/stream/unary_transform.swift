@@ -56,9 +56,9 @@ struct SquareState {
 }
 
 enum UnaryTransformFunction {
-  case sine(SineState)
-  case saw(SawState)
-  case square(SquareState)
+  case sine(SineState?) // If no values are supplied, use the defaults
+  case saw(SawState?)
+  case square(SquareState?)
 }
 
 class UnaryTransform<Currency> : FunctionStream {

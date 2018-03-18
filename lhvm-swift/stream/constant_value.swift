@@ -1,5 +1,8 @@
 struct ConstantState<Currency> {
   var value: Currency
+  init(_ value: Currency) {
+    self.value = value
+  }
 }
 
 // This intermediate class is only necessary to provide something concrete
@@ -13,7 +16,10 @@ class ConstantValue<Currency> : ValueStream {
     }
   }
   
-  init(_ state: ConstantState<Currency>?) { self.state = state ?? ConstantState<Currency>(value: 1.0 as! Currency) }
+  init(state: ConstantState<Currency>?) { self.state = state ?? ConstantState<Currency>(1.0 as! Currency) }
+  init(_ value: Currency) {
+    self.state = ConstantState<Currency>(value)
+  }
 }
 
 extension ConstantValue where Currency == Double {
@@ -24,7 +30,7 @@ extension ConstantValue where Currency == Double {
   }
   
   convenience init(parameters: [StreamParameter]) {
-    let state = parameters.reduce(ConstantState<Currency>(value: 1.0), { (current_state, parameter) in
+    let state = parameters.reduce(ConstantState<Currency>(1.0), { (current_state, parameter) in
       var current_state = current_state
       switch parameter {
       case .constant(let value): current_state.value = value
@@ -32,6 +38,6 @@ extension ConstantValue where Currency == Double {
       }
       return current_state;
     })
-    self.init(state)
+    self.init(state: state)
   }
 }
