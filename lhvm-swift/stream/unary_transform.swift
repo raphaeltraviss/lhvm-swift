@@ -1,8 +1,14 @@
+// @TODO: don't these need to be ComputeKernel, in case you pass them a full
+// receptor->transform->perceptor stream as their input?
+typealias ComputedDouble = () -> Double
+
+func return_one() -> Double { return 1.0 }
+
 struct SineState {
-  var speed: Double = 1.0
-  var amplitude: Double = 1.0
-  var wavelength: Double = 1.0
-  var phase_shift: Double = 0.0
+  var speed: ComputedDouble = return_one
+  var amplitude: ComputedDouble = return_one
+  var wavelength: ComputedDouble = return_one
+  var phase_shift: ComputedDouble = return_one
   
   init() {}
   
@@ -10,10 +16,10 @@ struct SineState {
     self = parameters.reduce(SineState(), { (current_state, parameter) in
       var current_state = current_state
       switch parameter {
-      case .speed(let value): current_state.speed = value
-      case .amplitude(let value): current_state.amplitude = value
-      case .wavelength(let value): current_state.wavelength = value
-      case .phase_shift(let value): current_state.phase_shift = value
+      case .speed(let get_value): current_state.speed = get_value
+      case .amplitude(let get_value): current_state.amplitude = get_value
+      case .wavelength(let get_value): current_state.wavelength = get_value
+      case .phase_shift(let get_value): current_state.phase_shift = get_value
       default: break
       }
       return current_state;
@@ -22,7 +28,7 @@ struct SineState {
 }
 
 struct SawState {
-  var sawness: Double = 1.0
+  var sawness: ComputedDouble = return_one
   
   init() {}
   
@@ -30,7 +36,7 @@ struct SawState {
     self = parameters.reduce(SawState(), { (current_state, parameter) in
       var current_state = current_state
       switch parameter {
-      case .sawness(let value): current_state.sawness = value
+      case .sawness(let get_value): current_state.sawness = get_value
       default: break
       }
       return current_state;
@@ -39,7 +45,7 @@ struct SawState {
 }
 
 struct SquareState {
-  var squareness: Double = 1.0
+  var squareness: ComputedDouble = return_one
 
   init() {}
   
@@ -47,7 +53,7 @@ struct SquareState {
     self = parameters.reduce(SquareState(), { (current_state, parameter) in
       var current_state = current_state
       switch parameter {
-      case .squareness(let value): current_state.squareness = value
+      case .squareness(let get_value): current_state.squareness = get_value
       default: break
       }
       return current_state;
@@ -103,13 +109,13 @@ extension UnaryTransform where Currency == Double {
     switch transform {
     case .sine:
       self.sine_state = SineState(from_parameters: parameters)
-      return { input in return sin((input * self.sine_state.speed + self.sine_state.phase_shift) * self.sine_state.amplitude) }
+      return { input in return sin((input * self.sine_state.speed() + self.sine_state.phase_shift()) * self.sine_state.amplitude()) }
     case .saw:
       self.saw_state = SawState(from_parameters: parameters)
-      return { input in self.saw_state.sawness }
+      return { input in self.saw_state.sawness() }
     case .square:
       self.square_state = SquareState(from_parameters: parameters)
-      return { input in return self.square_state.squareness }
+      return { input in return self.square_state.squareness() }
     }
   }
 }

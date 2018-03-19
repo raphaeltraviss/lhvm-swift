@@ -16,3 +16,6 @@ class SampleValue<PlatformSample, SchemaSample, Currency> : SampleStream {
     }
   }
 }
+
+// @TODO: some of the samplers, such as Timer and Mouse, have their own
+// state parameters that affect the sampled output value.
