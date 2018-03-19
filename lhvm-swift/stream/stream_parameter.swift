@@ -5,30 +5,30 @@
 
 enum StreamParameter: CustomStringConvertible {
   case constant(Double)
-  case amplitude(ComputedDouble)
-  case wavelength(ComputedDouble)
-  case speed(ComputedDouble)
-  case phase_shift(ComputedDouble)
+  case amplitude(Double)
+  case wavelength(Double)
+  case speed(Double)
+  case phase_shift(Double)
   case loop_count(Int)
-  case duration(ComputedDouble)
-  case interval(ComputedDouble)
-  case sawness(ComputedDouble)
-  case squareness(ComputedDouble)
+  case duration(Double)
+  case interval(Double)
+  case sawness(Double)
+  case squareness(Double)
   
   var description: String {
     switch self {
     case .constant(let value): return "constant \(value)"
-    case .amplitude(let get_value): return "amplitude \(get_value())"
-    case .wavelength(let get_value): return "wavelength \(get_value())"
-    case .speed(let get_value): return "speed \(get_value())"
-    case .phase_shift(let get_value): return "phase shift \(get_value())"
+    case .amplitude(let value): return "amplitude \(value)"
+    case .wavelength(let value): return "wavelength \(value)"
+    case .speed(let value): return "speed \(value)"
+    case .phase_shift(let value): return "phase shift \(value)"
     case .loop_count(let value): return "loop count \(value)"
-    case .duration(let get_value): return "duration \(get_value())"
-    case .interval(let get_value): return "interval \(get_value())"
+    case .duration(let value): return "duration \(value)"
+    case .interval(let value): return "interval \(value)"
       
     // Bogus parameters for testing.
-    case .sawness(let get_value): return "sawness \(get_value())"
-    case .squareness(let get_value): return "squareness \(get_value())"
+    case .sawness(let value): return "sawness \(value)"
+    case .squareness(let value): return "squareness \(value)"
     }
   }
 }

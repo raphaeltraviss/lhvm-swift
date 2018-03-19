@@ -31,10 +31,10 @@ final class LHVM<SchemaSample, Currency> {
   // @TODO: ops should be private... after I implement add/remove Collection API.
   // Evaluate and cache a new kernel, every time the stack is mutated.
   var ops = OpStack()
-  private var ui_sampler: AppKitSampler?
+  var ui_sampler: AppKitSampler?
   
   // Cached, evaluated kernel from the OpStack.
-  private var kernel: ComputeKernel?
+  var kernel: ComputeKernel?
 }
 
 

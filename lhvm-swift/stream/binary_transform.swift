@@ -9,15 +9,9 @@ class BinaryTransform<Currency> : MergeStream {
   typealias SampleOutput = Currency
   typealias BinaryFunction = (Currency, Currency) -> Currency
   
-  static func build_reducer(transform: BinaryTransformFunction, parameters: [StreamParameter]) -> BinaryFunction {
-    return { input1, input2 in return 1.0 as! Currency }
-  }
-  
-  var reduce: BinaryFunction
-  
-  init(_ transform: BinaryTransformFunction, parameters: [StreamParameter]) {
-    self.reduce = BinaryTransform.build_reducer(transform: transform, parameters: parameters)
-  }
+  var reduce: BinaryFunction = { _, _ in return 1.0 as! Currency }
+
+  init() {}
 }
 
 extension BinaryTransform where Currency == Double {
@@ -28,5 +22,10 @@ extension BinaryTransform where Currency == Double {
     case .multiply: return (*)
     case .divide: return (/)
     }
+  }
+  
+  convenience init(_ transform: BinaryTransformFunction, parameters: [StreamParameter]) {
+    self.init()
+    self.reduce = build_reducer(transform: transform, parameters: parameters)
   }
 }

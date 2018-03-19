@@ -18,39 +18,84 @@ class lhvm_swiftTests: XCTestCase {
     let sample_result = sampler.sample(buffer: [(1,2), (2,3), (4,5)])
     XCTAssertEqual(sample_result, [0.0, 0.0, 0.0])
   }
-//
-//  // @TODO: finish
-//  func test_constant_creation() {
-//    let params: [StreamParameter] = [.constant(2.0), .amplitude(2.0), .wavelength(3.4), .phase_shift(3.3)]
-//    let expected_state = ConstantState(constant: 2.0)
-//    let stream = Constant(parameters: params)
-//    XCTAssertEqual(expected_state.constant, stream.state.constant)
-//  }
-//
-//  func test_time_receptor_creation() {
-//    let params: [StreamParameter] = [.speed(1.0), .loop_count(5), .duration(2.0), .interval(1.0)]
-//    let expected_state = TimeReceptorState(speed: 1.0, loop_count: 5, duration: 2.0, interval: 1.0)
-//    let stream = TimeReceptor(parameters: params)
-//    XCTAssertEqual(expected_state.speed, stream.state.speed)
-//    XCTAssertEqual(expected_state.loop_count, stream.state.loop_count)
-//    XCTAssertEqual(expected_state.duration, stream.state.duration)
-//    XCTAssertEqual(expected_state.interval, stream.state.interval)
-//  }
-//
-//  func test_lhvm_sample_returns_two() {
-//    let sampler = LHVM<(Int, Int), Double>()
-//    sampler.load_program()
-//    let sample_1 = sampler.sample(at: (211, 2334))
-//    let sample_2 = sampler.sample(at: (234234, 0))
-//    XCTAssertEqual(sample_1, 2.0)
-//    XCTAssertEqual(sample_2, 2.0)
-//  }
   
-  func testPerformanceExample() {
-    // This is an example of a performance test case.
-    self.measure {
-      // Put the code you want to measure the time of here.
-    }
+  func test_constant_stack_returns_value() {
+    sampler.ops = [
+      .input(ConstantValue(5.0))
+    ]
+    sampler.kernel = sampler.ops.evaluate()
+    let sample_result = sampler.sample(at: (0.0, 0.0))
+    XCTAssertEqual(sample_result, 5.0)
   }
   
+  func test_scale_ten_returns_multiplied_result() {
+    sampler.ops = [
+      .input(ConstantValue(10.0)),
+      .map(UnaryTransform<Double>(.scale_ten, parameters: [StreamParameter]()))
+    ]
+    sampler.kernel = sampler.ops.evaluate()
+    let sample_result = sampler.sample(at: (0.0, 0.0))
+    XCTAssertEqual(sample_result, 100.0)
+  }
+  
+  func test_sine_return_correct_sine_even_after_mutation_without_reevluation() {
+    let the_constant = ConstantValue(0.0175)
+    sampler.ops = [
+      .input(the_constant),
+      .map(UnaryTransform<Double>(.simple_sine, parameters: [StreamParameter]()))
+    ]
+    
+    sampler.kernel = sampler.ops.evaluate()
+    let sample_result = sampler.sample(at: (0.0, 0.0))
+    let delta1 = abs(sample_result - 0.0175) // value from sine table
+    XCTAssert(delta1 < 0.001)
+    
+    the_constant.state.value = 0.5236
+    let sample_result2 = sampler.sample(at: (0.0, 0.0))
+    let delta2 = abs(sample_result2 - 0.5) // value from sine table
+    XCTAssert(delta2 < 0.001)
+  }
+  
+  func test_order_of_operations_determined_by_order_on_the_stack() {
+    sampler.ops = [
+      .input(ConstantValue(0.0175)),
+      .map(UnaryTransform<Double>(.simple_sine, parameters: [StreamParameter]())),
+      .map(UnaryTransform<Double>(.scale_ten, parameters: [StreamParameter]())),
+      .map(UnaryTransform<Double>(.scale_ten, parameters: [StreamParameter]()))
+    ]
+    
+    sampler.kernel = sampler.ops.evaluate()
+    let sample_result = sampler.sample(at: (0.0, 0.0))
+    let delta1 = abs(sample_result - 001.75) // value from sine table
+    XCTAssert(delta1 < 0.001)
+  }
+  
+  func test_basic_combinator() {
+    sampler.ops = [
+      .input(ConstantValue(0.3)),
+      .input(ConstantValue(0.3)),
+      .combine(BinaryTransform<Double>(.add, parameters: [StreamParameter]()))
+    ]
+    
+    sampler.kernel = sampler.ops.evaluate()
+    let actual = sampler.sample(at: (0.0, 0.0))
+    let expected = 0.6
+    XCTAssert(abs(actual - expected) < 0.001)
+  }
+  
+  func test_combinator_in_a_stack() {
+    sampler.ops = [
+      .input(ConstantValue(0.3)),
+      .input(ConstantValue(0.3)),
+      .combine(BinaryTransform<Double>(.add, parameters: [StreamParameter]())),
+      .map(UnaryTransform<Double>(.simple_sine, parameters: [StreamParameter]())), //0.565 sine table
+      .input(ConstantValue(10.0)),
+      .combine(BinaryTransform<Double>(.multiply, parameters: [StreamParameter]()))
+    ]
+    
+    sampler.kernel = sampler.ops.evaluate()
+    let actual = sampler.sample(at: (0.0, 0.0))
+    let expected = sin(0.3 + 0.3) * 10.0
+    XCTAssert(abs(actual - expected) < 0.001)
+  }
 }

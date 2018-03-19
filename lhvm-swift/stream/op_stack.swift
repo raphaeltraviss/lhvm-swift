@@ -1,5 +1,6 @@
 import Foundation
 
+
 // An individual stream operation is valid only for a certain platform sample
 // type, a certain schema, and a certain currency.
 // The StreamStack can, optionally, take the three generic type, and restrict
@@ -14,28 +15,50 @@ enum StreamOp<PlatformSample, SchemaSample, Currency>{
 }
 
 extension Array where Element == StreamOp<AppKitSample, HeightmapSample, Double> {
-  typealias OpStack = [StreamOp<AppKitSample, HeightmapSample, Double>]
+  typealias StackOp = StreamOp<AppKitSample, HeightmapSample, Double>
+  typealias OpStack = [StackOp]
   typealias ComputeKernel = (AppKitSample, HeightmapSample) -> Double
-  
-  // @Swift: needed to be able to use array slices, for some reason.
-  subscript(_ range: CountableClosedRange<Int>) -> ArraySlice<OpStack> {
-    get {
-      return self[range];
-    }
-  }
   
   var default_kernel: ComputeKernel {
     return { (user_sample, app_sample) in return 0.0 }
   }
   
-  func evaluate(at index: Int? = nil) -> ComputeKernel {
-    guard self.count > 0 else { return default_kernel }
-    let target_index = index ?? self.endIndex - 1
-    return evaluate_ops(self[self.startIndex ... target_index]).result
-    
+  func evaluate() -> ComputeKernel {
+    return evaluate_ops(self[..<self.endIndex]).result
   }
   
-  func evaluate_ops(_ ops: ArraySlice<OpStack>) -> (result: ComputeKernel, remaining_ops: ArraySlice<OpStack>) {
+  private func evaluate_ops(_ ops: ArraySlice<StackOp>) -> (result: ComputeKernel, remaining_ops: ArraySlice<StackOp>) {
+    guard ops.count > 0 else { return (default_kernel, ops) }
+    let current_index = ops.endIndex - 1
+    let op = ops[current_index]
+    
+    let new_slice = self[..<current_index]
+    
+    switch op {
+    case .input(let constant):
+      let constant_kernel: ComputeKernel = { _, _ in return constant.reduce() }
+      return (result: constant_kernel, remaining_ops: new_slice)
+    case .request(let sampler):
+      // Note: it just so happens that the sampler reduce matches the signature for ComputeKernel.
+      return (result: sampler.reduce, remaining_ops: new_slice)
+    case .map(let unary_trans):
+      let (next_kernel, next_ops) = evaluate_ops(new_slice)
+      let unary_kernel: ComputeKernel = { p_sample, a_sample in
+        return unary_trans.reduce(next_kernel(p_sample, a_sample))
+      }
+      return (result: unary_kernel, remaining_ops: next_ops)
+    case .combine(let binary_trans):
+      let (kernel1, next_ops1) = evaluate_ops(new_slice)
+      let (kernel2, next_ops2) = evaluate_ops(next_ops1)
+      let binary_kernel: ComputeKernel = { p_sample, a_sample in
+        let result1 = kernel1(p_sample, a_sample)
+        let result2 = kernel2(p_sample, a_sample)
+        return binary_trans.reduce(result1, result2)
+      }
+      return (result: binary_kernel, remaining_ops: next_ops2)
+    default: break
+    }
+    
     return (default_kernel, [])
   }
 
@@ -113,4 +136,8 @@ extension Array where Element == StreamOp<AppKitSample, HeightmapSample, Double>
 //    default: return reduce_stream(new_slice)
 //    }
 //  }
+}
+
+func brackets<T>(_ x: CountableRange<T>, _ i: T) -> T {
+  return x[i] // Just forward to subscript
 }

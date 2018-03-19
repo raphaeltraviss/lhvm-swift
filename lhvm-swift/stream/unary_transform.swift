@@ -1,14 +1,8 @@
-// @TODO: don't these need to be ComputeKernel, in case you pass them a full
-// receptor->transform->perceptor stream as their input?
-typealias ComputedDouble = () -> Double
-
-func return_one() -> Double { return 1.0 }
-
 struct SineState {
-  var speed: ComputedDouble = return_one
-  var amplitude: ComputedDouble = return_one
-  var wavelength: ComputedDouble = return_one
-  var phase_shift: ComputedDouble = return_one
+  var speed: Double = 1.0
+  var amplitude: Double = 1.0
+  var wavelength: Double = 1.0
+  var phase_shift: Double = 1.0
   
   init() {}
   
@@ -16,10 +10,10 @@ struct SineState {
     self = parameters.reduce(SineState(), { (current_state, parameter) in
       var current_state = current_state
       switch parameter {
-      case .speed(let get_value): current_state.speed = get_value
-      case .amplitude(let get_value): current_state.amplitude = get_value
-      case .wavelength(let get_value): current_state.wavelength = get_value
-      case .phase_shift(let get_value): current_state.phase_shift = get_value
+      case .speed(let value): current_state.speed = value
+      case .amplitude(let value): current_state.amplitude = value
+      case .wavelength(let value): current_state.wavelength = value
+      case .phase_shift(let value): current_state.phase_shift = value
       default: break
       }
       return current_state;
@@ -28,7 +22,7 @@ struct SineState {
 }
 
 struct SawState {
-  var sawness: ComputedDouble = return_one
+  var sawness: Double = 1.0
   
   init() {}
   
@@ -36,7 +30,7 @@ struct SawState {
     self = parameters.reduce(SawState(), { (current_state, parameter) in
       var current_state = current_state
       switch parameter {
-      case .sawness(let get_value): current_state.sawness = get_value
+      case .sawness(let value): current_state.sawness = value
       default: break
       }
       return current_state;
@@ -45,7 +39,7 @@ struct SawState {
 }
 
 struct SquareState {
-  var squareness: ComputedDouble = return_one
+  var squareness: Double = 1.0
 
   init() {}
   
@@ -53,7 +47,7 @@ struct SquareState {
     self = parameters.reduce(SquareState(), { (current_state, parameter) in
       var current_state = current_state
       switch parameter {
-      case .squareness(let get_value): current_state.squareness = get_value
+      case .squareness(let value): current_state.squareness = value
       default: break
       }
       return current_state;
@@ -62,6 +56,8 @@ struct SquareState {
 }
 
 enum UnaryTransformFunction {
+  case scale_ten
+  case simple_sine
   case sine(SineState?) // If no values are supplied, use the defaults
   case saw(SawState?)
   case square(SquareState?)
@@ -76,11 +72,11 @@ class UnaryTransform<Currency> : FunctionStream {
   // stack 4) re-set the master builder function.
   // This is not acceptable when just changing constant parameters via the dials--we need
   // the transforms to save their own state.
-  static func build_reducer(transform: UnaryTransformFunction, parameters: [StreamParameter]) -> ((Currency) -> Currency) {
+  func build_reducer(transform: UnaryTransformFunction, parameters: [StreamParameter]) -> ((Currency) -> Currency) {
     return { input in return 1.0 as! Currency }
   }
   
-  var reduce: (Currency) -> Currency
+  var reduce: (Currency) -> Currency = { _ in return 1.0 as! Currency }
   
   // We hold onto any contant values that the user has set, and store them here, which
   // are continually being referenced by the reducer function and included in the
@@ -93,10 +89,6 @@ class UnaryTransform<Currency> : FunctionStream {
   var sine_state = SineState()
   var saw_state = SawState()
   var square_state = SquareState()
-  
-  init(_ transform: UnaryTransformFunction, parameters: [StreamParameter]) {
-    self.reduce = UnaryTransform.build_reducer(transform: transform, parameters: parameters)
-  }
 }
 
 
@@ -107,16 +99,25 @@ class UnaryTransform<Currency> : FunctionStream {
 extension UnaryTransform where Currency == Double {
   func build_reducer(transform: UnaryTransformFunction, parameters: [StreamParameter]) -> ((Currency) -> Currency) {
     switch transform {
+    case .scale_ten:
+      return { input in return input * 10.0 }
+    case .simple_sine:
+      return { input in return sin(input) }
     case .sine:
       self.sine_state = SineState(from_parameters: parameters)
-      return { input in return sin((input * self.sine_state.speed() + self.sine_state.phase_shift()) * self.sine_state.amplitude()) }
+      return { input in return sin((input * self.sine_state.speed + self.sine_state.phase_shift) * self.sine_state.amplitude) }
     case .saw:
       self.saw_state = SawState(from_parameters: parameters)
-      return { input in self.saw_state.sawness() }
+      return { input in self.saw_state.sawness }
     case .square:
       self.square_state = SquareState(from_parameters: parameters)
-      return { input in return self.square_state.squareness() }
+      return { input in return self.square_state.squareness }
     }
+  }
+  
+  convenience init(_ transform: UnaryTransformFunction, parameters: [StreamParameter]) {
+    self.init()
+    self.reduce = build_reducer(transform: transform, parameters: parameters)
   }
 }
 

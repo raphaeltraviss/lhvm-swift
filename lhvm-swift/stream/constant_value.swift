@@ -25,12 +25,12 @@ class ConstantValue<Currency> : ValueStream {
 extension ConstantValue where Currency == Double {
   var reduce: () -> Double {
     return { () in
-      return 1.0
+      return self.state.value
     }
   }
   
   convenience init(parameters: [StreamParameter]) {
-    let state = parameters.reduce(ConstantState<Currency>(1.0), { (current_state, parameter) in
+    let state = parameters.reduce(ConstantState(1.0), { (current_state, parameter) in
       var current_state = current_state
       switch parameter {
       case .constant(let value): current_state.value = value
