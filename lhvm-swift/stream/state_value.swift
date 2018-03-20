@@ -1,4 +1,6 @@
-class SampleValue<PlatformSample, SchemaSample, Currency> : SampleStream {
+// @Swift: class only exists to work around limitations in protocols with
+// associated types.  Not meant to be instantiated.
+class StateValue<PlatformSample, SchemaSample, Currency> : StateStream {
   typealias UserSample = PlatformSample
   typealias SampleIndex = SchemaSample
   typealias SampleOutput = Currency
@@ -17,5 +19,10 @@ class SampleValue<PlatformSample, SchemaSample, Currency> : SampleStream {
   }
 }
 
-// @TODO: some of the samplers, such as Timer and Mouse, have their own
-// state parameters that affect the sampled output value.
+final class ElapsedTime: StateValue<AppKitSample, HeightmapSample, Double> {
+  init() { super.init(\AppKitSample.time_elapsed) }
+}
+final class MouseX: StateValue<AppKitSample, HeightmapSample, Double> {
+  init() { super.init(\AppKitSample.mouse_x) }
+}
+

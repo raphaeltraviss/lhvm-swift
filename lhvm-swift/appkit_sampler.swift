@@ -2,6 +2,8 @@ import Foundation
 import AppKit
 
 struct AppKitSample {
+  var resolution_x: Double = 0.0
+  var resolution_y: Double = 0.0
   var mouse_x: Double = 0.0
   var mouse_y: Double = 0.0
   var time_elapsed: Double = 0.0
@@ -17,6 +19,14 @@ class AppKitSampler: NSView {
   // @TODO: create methods for getting an AppKitSampleState struct out of the
   // NSView.
   func sample() -> AppKitSample {
-    return AppKitSample(mouse_x: 1.0, mouse_y: 1.0, time_elapsed: 100.0, time_delta: 0.23, keys_pressed: [45,46])
+    return AppKitSample(
+      resolution_x: 100.0,
+      resolution_y: 100.0,
+      mouse_x: 1.0,
+      mouse_y: 1.0,
+      time_elapsed: 100.0,
+      time_delta: 0.23,
+      keys_pressed: [45,46]
+    )
   }
 }

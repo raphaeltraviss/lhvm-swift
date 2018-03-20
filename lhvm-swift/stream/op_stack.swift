@@ -7,9 +7,9 @@ import Foundation
 // everything inside of its stack to be of the same type--then you could embed
 // StreamStacks within StreamStacks.
 enum StreamOp<PlatformSample, SchemaSample, Currency>{
-  case input(ConstantValue<Currency>)
-  case request(SampleValue<PlatformSample, SchemaSample, Currency>)
-  case map(UnaryTransform<Currency>)
-  case combine(BinaryTransform<Currency>)
+  case input(Constant<Currency>)
+  case sample(StateValue<PlatformSample, SchemaSample, Currency>)
+  case map(TransformOne<Currency>)
+  case combine(TransformTwo<Currency>)
   case bind(StreamParameter)
 }

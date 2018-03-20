@@ -73,7 +73,7 @@ final class LHVM<SchemaSample, Currency> {
     case .input(let constant):
       let constant_kernel: ComputeKernel = { _, _ in return constant.reduce() }
       return (result: constant_kernel, remaining_ops: new_slice)
-    case .request(let sampler):
+    case .sample(let sampler):
       // Note: it just so happens that the sampler reduce matches the signature for ComputeKernel.
       return (result: sampler.reduce, remaining_ops: new_slice)
     case .map(let unary_trans):
@@ -123,12 +123,16 @@ extension LHVM: Collection {
   subscript(index: Index) -> Iterator.Element {
     get { return opstack[index] }
   }
+  
+  // Custom subscript for schema sample indices.
+  // Subscripting via the schema sample provides a sample result, NOT an op.
+  subscript(index: SchemaSample) -> Currency? {
+    get { return self.sample(at: index) }
+  }
 
   func index(after i: Int) -> Int {
     return opstack.index(after: i)
   }
 }
-
-
 
 

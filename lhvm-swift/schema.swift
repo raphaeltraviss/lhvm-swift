@@ -1,4 +1,4 @@
-// First is the x_cycle, second is the y_cycle.
+// The schema "sample" also doubles as the schema "index".
 typealias HeightmapSample = (Double, Double)
 
 class HeightmapSchema {
