@@ -19,10 +19,12 @@ class StateValue<PlatformSample, SchemaSample, Currency> : StateStream {
   }
 }
 
-final class ElapsedTime: StateValue<AppKitSample, HeightmapSample, Double> {
+final class ElapsedTime: StateValue<AppKitSample, HeightmapState, Double> {
   init() { super.init(\AppKitSample.time_elapsed) }
 }
-final class MouseX: StateValue<AppKitSample, HeightmapSample, Double> {
+final class MouseX: StateValue<AppKitSample, HeightmapState, Double> {
   init() { super.init(\AppKitSample.mouse_x) }
 }
-
+final class CycleX: StateValue<AppKitSample, HeightmapState, Double> {
+  init() { super.init(\HeightmapState.x) }
+}

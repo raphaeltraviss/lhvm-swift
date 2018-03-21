@@ -124,14 +124,21 @@ extension LHVM: Collection {
     get { return opstack[index] }
   }
   
-  // Custom subscript for schema sample indices.
-  // Subscripting via the schema sample provides a sample result, NOT an op.
+  // Custom subscript by schema sample returns the computed sample result.
   subscript(index: SchemaSample) -> Currency? {
     get { return self.sample(at: index) }
   }
 
   func index(after i: Int) -> Int {
     return opstack.index(after: i)
+  }
+}
+
+extension LHVM where SchemaSample == HeightmapState {
+  // @Swift: workaround to conveniently index samples, until Swift supports
+  // KeyPaths for tuples.
+  subscript(index: (Double, Double)) -> Currency? {
+    get { return self.sample(at: HeightmapState(index.0, index.1)) }
   }
 }
 
