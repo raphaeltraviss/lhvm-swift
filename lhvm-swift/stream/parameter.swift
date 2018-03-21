@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 // Combinator streams must be preceeded by an InputStream, which produces
 // the value to be bound to the StreamParameter referenced by the CombinatorStream.
 // Next on the stack, is either a Stream, which will have the parameter value bound to
