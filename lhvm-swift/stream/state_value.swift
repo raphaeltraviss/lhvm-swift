@@ -32,3 +32,6 @@ final class MouseX: StateValue<AppKitSample, HeightmapState, Double> {
 final class CycleX: StateValue<AppKitSample, HeightmapState, Double> {
   init() { super.init(\HeightmapState.x) }
 }
+final class CycleY: StateValue<AppKitSample, HeightmapState, Double> {
+  init() { super.init(\HeightmapState.y) }
+}

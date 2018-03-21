@@ -6,15 +6,17 @@ import Foundation
 
 
 
+final class MacLhvm<SchemaSample, Currency>: Lhvm<AppKitSample, SchemaSample, Currency> {
+  override init(ops the_ops: OpStack) {
+    super.init(ops: the_ops)
+    self.platform_listener = AppKitListener()
+  }
+}
 
-
-final class LHVM<SchemaSample, Currency> {
-  
-  // Again, note that AppKitSample is filled-in, because this LHVM class is actually
-  // AppKit-specific.
-  typealias StackOp = StreamOp<AppKitSample, SchemaSample, Currency>
+class Lhvm<PlatformSample, SchemaSample, Currency> {
+  typealias StackOp = StreamOp<PlatformSample, SchemaSample, Currency>
   typealias OpStack = [StackOp]
-  typealias ComputeKernel = (AppKitSample, SchemaSample) -> Currency
+  typealias ComputeKernel = (PlatformSample, SchemaSample) -> Currency
   
   
   // MARK: public APi.
@@ -23,15 +25,14 @@ final class LHVM<SchemaSample, Currency> {
     return OpStack()
   }
   
-  func attach(sampler: AppKitSampler) {
-    // build and set ui_sampler.
-    // recalculate the kernel, if necessarry.
-    // hand the caller back... something.
+  func attach(_ listener: Listener<PlatformSample>) {
+    self.platform_listener = listener
   }
+  
   func sample(at app_sample: SchemaSample) -> Currency? {
-    let ui_sample = self.ui_sampler?.sample() ?? AppKitSample()
+    guard let platform_sample = platform_listener.report() else { return nil }
     guard let kernel = self.kernel else { return nil }
-    return kernel(ui_sample, app_sample)
+    return kernel(platform_sample, app_sample)
   }
   
   func sample(buffer: [SchemaSample]) -> [Currency?] {
@@ -43,7 +44,7 @@ final class LHVM<SchemaSample, Currency> {
     self.kernel = evaluate()
   }
   convenience init?(program: String) {
-    guard let the_ops = LHVM.parse(program) else { return nil }
+    guard let the_ops = Lhvm.parse(program) else { return nil }
     self.init(ops: the_ops)
   }
   
@@ -57,7 +58,8 @@ final class LHVM<SchemaSample, Currency> {
       self.kernel = evaluate()
     }
   }
-  var ui_sampler: AppKitSampler?
+  
+  var platform_listener: Listener<PlatformSample> = Listener<PlatformSample>()
   
   // Cached, evaluated kernel from the OpStack.
   var kernel: ComputeKernel?
@@ -117,7 +119,7 @@ final class LHVM<SchemaSample, Currency> {
 
 
 
-extension LHVM: Collection {
+extension Lhvm: Collection {
   typealias Index = Int
   typealias Element = StackOp
   
@@ -138,11 +140,11 @@ extension LHVM: Collection {
   }
 }
 
-extension LHVM where SchemaSample == HeightmapState {
-  // @Swift: workaround to conveniently index samples, until Swift supports
-  // KeyPaths for tuples.
-  subscript(index: (Double, Double)) -> Currency? {
-    get { return self.sample(at: HeightmapState(index.0, index.1)) }
+extension Lhvm where SchemaSample == HeightmapState {
+  subscript(x_cycle: Double, y_cycle: Double) -> Currency? {
+    get {
+      return self.sample(at: HeightmapState(x_cycle, y_cycle))
+    }
   }
 }
 

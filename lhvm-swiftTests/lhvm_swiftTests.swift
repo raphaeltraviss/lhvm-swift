@@ -8,13 +8,13 @@ import XCTest
 class lhvm_swiftTests: XCTestCase {
   
   func test_empty_stack_returns_nil() {
-    let sampler = LHVM<HeightmapState, Double>(ops:[])
+    let sampler = MacLhvm<HeightmapState, Double>(ops:[])
     let result = sampler.sample(at: HeightmapState(1.0, 1.0))
     XCTAssertNil(result)
   }
 
   func test_empty_stack_returns_empty_set() {
-    let sampler = LHVM<HeightmapState, Double>(ops:[])
+    let sampler = MacLhvm<HeightmapState, Double>(ops:[])
     let sample_result = sampler.sample(buffer: [
       HeightmapState(1.0, 2.0),
       HeightmapState(2.0, 3.0),
@@ -25,7 +25,7 @@ class lhvm_swiftTests: XCTestCase {
   }
   
   func test_constant_stack_returns_value() {
-    let sampler = LHVM<HeightmapState, Double>(ops: [
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
       .input(Number(5.0))
     ])
     let sample_result = sampler.sample(at: HeightmapState(0.0, 0.0))
@@ -34,7 +34,7 @@ class lhvm_swiftTests: XCTestCase {
   }
   
   func test_scale_ten_returns_multiplied_result() {
-    let sampler = LHVM<HeightmapState, Double>(ops: [
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
       .input(Number(10.0)),
       .map(ScaleTen())
     ])
@@ -45,7 +45,7 @@ class lhvm_swiftTests: XCTestCase {
   
   func test_sine_return_correct_sine_even_after_mutation_without_reevluation() {
     let the_number = Number(0.0175)
-    let sampler = LHVM<HeightmapState, Double>(ops: [
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
       .input(the_number),
       .map(SimpleSine())
     ])
@@ -64,7 +64,7 @@ class lhvm_swiftTests: XCTestCase {
   }
   
   func test_order_of_operations_determined_by_order_on_the_stack() {
-    let sampler = LHVM<HeightmapState, Double>(ops: [
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
       .input(Number(0.0175)),
       .map(SimpleSine()),
       .map(ScaleTen()),
@@ -78,7 +78,7 @@ class lhvm_swiftTests: XCTestCase {
   }
   
   func test_basic_combinator() {
-    let sampler = LHVM<HeightmapState, Double>(ops: [
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
       .input(Constant(0.3)),
       .input(Constant(0.3)),
       .combine(Add())
@@ -91,7 +91,7 @@ class lhvm_swiftTests: XCTestCase {
   }
   
   func test_combinator_in_a_stack() {
-    let sampler = LHVM<HeightmapState, Double>(ops: [
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
       .input(Number(0.3)),
       .input(Number(0.3)),
       .combine(Add()),
@@ -107,7 +107,7 @@ class lhvm_swiftTests: XCTestCase {
   }
   
   func test_unininitialized_appkit_sample() {
-    let sampler = LHVM<HeightmapState, Double>(ops: [
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
       .sample(ElapsedTime())
     ])
     let sample_result = sampler.sample(at: HeightmapState(0.0, 0.0))
@@ -116,19 +116,35 @@ class lhvm_swiftTests: XCTestCase {
   }
   
   func test_heightmap_sample_returns_cycle() {
-    // @TODO: how do we deal with sampling the schema sample?  Is the schema sample different
-    // from the schema index?
-//    let sampler = LHVM<HeightmapSample, Double>(ops: [
-//      .sample(StateValue(\HeightmapSample.0 as! Double)) <-- Doesn't work.
-//    ])
-    // @TODO: attach heighmap state
-    // @TODO: ask for a sample at a known cycle point.
-    // @TODO: check the value of the sample matches expected.
-    XCTAssert(false)
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
+      .sample(CycleX())
+    ])
+    guard let result = sampler.sample(at: HeightmapState(7.0, 10.0)) else { XCTFail(); return }
+    XCTAssertEqual(result, 7.0)
+  }
+  
+  func test_heightmap_sample_transform() {
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
+      .sample(CycleX()),
+      .sample(CycleY()),
+      .combine(Add()),
+      .map(ScaleTen())
+    ])
+    guard let result1 = sampler.sample(at: HeightmapState(5.0, 5.0)) else { XCTFail(); return }
+    guard let result2 = sampler.sample(at: HeightmapState(50.0, 50.0)) else { XCTFail(); return }
+    XCTAssertEqual(result1, 100.0)
+    XCTAssertEqual(result2, 1000.0)
   }
   
   func test_lhvm_subscript() {
-    // @TODO: do the same test as above, but use our custom subscript.
-    XCTAssert(false)
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
+      .sample(CycleX()),
+      .sample(CycleY()),
+      .combine(Multiply())
+    ])
+    guard let result1 = sampler[5.0, 10.0] else { XCTFail(); return }
+    guard let result2 = sampler[6.0, 7.0] else { XCTFail(); return }
+    XCTAssertEqual(result1, 50.0)
+    XCTAssertEqual(result2, 42.0)
   }
 }

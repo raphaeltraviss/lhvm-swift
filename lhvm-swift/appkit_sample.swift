@@ -5,21 +5,10 @@
 import Foundation
 import AppKit
 
-struct AppKitSample {
-  var resolution_x: Double = 0.0
-  var resolution_y: Double = 0.0
-  var mouse_x: Double = 0.0
-  var mouse_y: Double = 0.0
-  var time_elapsed: Double = 0.0
-  var time_delta: Double = 0.0
-  var keys_pressed: [Int] = []
-}
-
-
 // @TODO: this should be a protocol that we can extend NSView to provide.
 // Maybe even a generic "UISampler", that the NSView implementation can provide.
 // Maybe LHVM could provide this subclass itself: NSViewSampler
-class AppKitSampler: NSView {
+class SampleView: NSView {
   // @TODO: create methods for getting an AppKitSampleState struct out of the
   // NSView.
   func sample() -> AppKitSample {
