@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		640EB9A42063F2D00063271B /* stream_node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640EB9A32063F2D00063271B /* stream_node.swift */; };
+		640EB9A620640FE60063271B /* test_stream_node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640EB9A520640FE60063271B /* test_stream_node.swift */; };
 		64503F942062AA370004BB42 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 64503F932062AA370004BB42 /* LICENSE */; };
 		64503F962062B63D0004BB42 /* listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64503F952062B63D0004BB42 /* listener.swift */; };
 		64526042205C101200B4B211 /* schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64526041205C101200B4B211 /* schema.swift */; };
@@ -21,7 +22,7 @@
 		64B34A94204C63C1002CE380 /* appkit_sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B34A93204C63C1002CE380 /* appkit_sample.swift */; };
 		64B34A96204C64A7002CE380 /* op_stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B34A95204C64A7002CE380 /* op_stack.swift */; };
 		64FCE22D2045DB9D00BEECDD /* lhvm_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64FCE2232045DB9D00BEECDD /* lhvm_swift.framework */; };
-		64FCE2322045DB9D00BEECDD /* lhvm_swiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FCE2312045DB9D00BEECDD /* lhvm_swiftTests.swift */; };
+		64FCE2322045DB9D00BEECDD /* test_lhvm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FCE2312045DB9D00BEECDD /* test_lhvm.swift */; };
 		64FCE2342045DB9D00BEECDD /* lhvm_swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 64FCE2262045DB9D00BEECDD /* lhvm_swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		640EB9A32063F2D00063271B /* stream_node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stream_node.swift; sourceTree = "<group>"; };
+		640EB9A520640FE60063271B /* test_stream_node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_stream_node.swift; sourceTree = "<group>"; };
 		64503F932062AA370004BB42 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		64503F952062B63D0004BB42 /* listener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = listener.swift; sourceTree = "<group>"; };
 		64526041205C101200B4B211 /* schema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = schema.swift; sourceTree = "<group>"; };
@@ -54,7 +56,7 @@
 		64FCE2262045DB9D00BEECDD /* lhvm_swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lhvm_swift.h; sourceTree = "<group>"; };
 		64FCE2272045DB9D00BEECDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		64FCE22C2045DB9D00BEECDD /* lhvm-swiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "lhvm-swiftTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		64FCE2312045DB9D00BEECDD /* lhvm_swiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lhvm_swiftTests.swift; sourceTree = "<group>"; };
+		64FCE2312045DB9D00BEECDD /* test_lhvm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_lhvm.swift; sourceTree = "<group>"; };
 		64FCE2332045DB9D00BEECDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		64FCE23D2045DBB400BEECDD /* numberforth_design.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = numberforth_design.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -131,7 +133,8 @@
 		64FCE2302045DB9D00BEECDD /* lhvm-swiftTests */ = {
 			isa = PBXGroup;
 			children = (
-				64FCE2312045DB9D00BEECDD /* lhvm_swiftTests.swift */,
+				640EB9A520640FE60063271B /* test_stream_node.swift */,
+				64FCE2312045DB9D00BEECDD /* test_lhvm.swift */,
 				64FCE2332045DB9D00BEECDD /* Info.plist */,
 			);
 			path = "lhvm-swiftTests";
@@ -268,7 +271,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64FCE2322045DB9D00BEECDD /* lhvm_swiftTests.swift in Sources */,
+				64FCE2322045DB9D00BEECDD /* test_lhvm.swift in Sources */,
+				640EB9A620640FE60063271B /* test_stream_node.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

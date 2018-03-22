@@ -206,6 +206,7 @@ class lhvm_swiftTests: XCTestCase {
     ])
     
     let token_tree = sampler.tokenize()
+    // @TODO: once stream .every and .some methods are working, sanity-check our tree.
     XCTAssertTrue(true)
   }
 }
