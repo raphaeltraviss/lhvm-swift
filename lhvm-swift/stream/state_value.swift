@@ -21,13 +21,24 @@ class StateValue<PlatformSample, SchemaSample, Currency> : StateStream {
       return schema[keyPath: schema_property]
     }
   }
+  
+  init(swift_workaround: Int) { self.reduce = { _, _ in return 1.0 as! Currency } }
 }
 
 final class ElapsedTime: StateValue<AppKitSample, HeightmapState, Double> {
   init() { super.init(\AppKitSample.time_elapsed) }
 }
 final class MouseX: StateValue<AppKitSample, HeightmapState, Double> {
-  init() { super.init(\AppKitSample.mouse_x) }
+  init() {
+    super.init(swift_workaround: 55)
+    self.reduce = { platform, _ in return Double(platform.mouse_x) }
+  }
+}
+final class MouseY: StateValue<AppKitSample, HeightmapState, Double> {
+  init() {
+    super.init(swift_workaround: 55)
+    self.reduce = { platform, _ in return Double(platform.mouse_y) }
+  }
 }
 final class CycleX: StateValue<AppKitSample, HeightmapState, Double> {
   init() { super.init(\HeightmapState.x) }

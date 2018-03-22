@@ -19,7 +19,7 @@ class Lhvm<PlatformSample, SchemaSample, Currency> {
   typealias ComputeKernel = (PlatformSample, SchemaSample) -> Currency
   
   
-  // MARK: public APi.
+  // MARK: public API.
   
   static func parse(_ program: String) -> OpStack? {
     return OpStack()
@@ -106,10 +106,37 @@ class Lhvm<PlatformSample, SchemaSample, Currency> {
     return (nil, [])
   }
   
-  func tokenize() -> CFTree? {
-    // In the UI, you transform this tree into your NSOutline nodes.
-    // @TODO: use CFTreeCreate and the Swift pointer API to return a nested tree.
-    return nil
+  func tokenize() -> StreamNode<StackOp>? {
+    return tokenize_ops(opstack[..<opstack.endIndex]).result
+  }
+  
+  private func tokenize_ops(_ ops: ArraySlice<StackOp>) -> (result: StreamNode<StackOp>?, remaining_ops: ArraySlice<StackOp>) {
+    guard ops.count > 0 else { return (nil, ops) }
+    let current_index = ops.endIndex - 1
+    let op = ops[current_index]
+    let new_slice = ops[..<current_index]
+    
+    switch op {
+    case .input, .sample:
+      return (result: StreamNode(op), remaining_ops: new_slice)
+    case .map:
+      let (next_node, next_ops) = tokenize_ops(new_slice)
+      guard next_node != nil else { return ( nil, []) }
+      let node = StreamNode(op, child_nodes: [next_node!])
+      return (result: node, remaining_ops: next_ops)
+    case .combine:
+      let (next_node1, next_ops1) = tokenize_ops(new_slice)
+      guard next_node1 != nil else { return ( nil, []) }
+      
+      let (next_node2, next_ops2) = tokenize_ops(next_ops1)
+      guard next_node2 != nil else { return ( nil, []) }
+      
+      let node = StreamNode(op, child_nodes: [next_node1!, next_node2!])
+      return (result: node, remaining_ops: next_ops2)
+    default: break
+    }
+    
+    return (nil, [])
   }
 }
 

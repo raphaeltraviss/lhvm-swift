@@ -147,4 +147,70 @@ class lhvm_swiftTests: XCTestCase {
     XCTAssertEqual(result1, 50.0)
     XCTAssertEqual(result2, 42.0)
   }
+  
+  func test_appkit_default_sample() {
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
+      .sample(MouseX()),
+      .sample(MouseY()),
+      .combine(Multiply()), // Expected zero at this point.
+      .input(Constant(10.0)),
+      .combine(Add())
+    ])
+    
+    // We're not sampling HeightmapState, so both of these should be equivalent.
+    guard let result1 = sampler[533.0, 12220.0] else { XCTFail(); return }
+    guard let result2 = sampler[2.234, 0.00023] else { XCTFail(); return }
+    XCTAssertEqual(result1, 10.0)
+    XCTAssertEqual(result2, 10.0)
+  }
+  
+  func test_appkit_bogus_ui_sample() {
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
+      .sample(MouseX()),
+      .sample(MouseY()),
+      .combine(Multiply()), // Expected zero at this point.
+      .input(Constant(10.0)),
+      .combine(Add())
+    ])
+    
+    // We're not sampling HeightmapState, so both of these should be equivalent.
+    guard let result1 = sampler[533.0, 12220.0] else { XCTFail(); return }
+    guard let result2 = sampler[2.234, 0.00023] else { XCTFail(); return }
+    XCTAssertEqual(result1, 10.0)
+    XCTAssertEqual(result2, 10.0)
+  }
+  
+  func test_elapsed_time_increases() {
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
+      .sample(ElapsedTime())
+    ])
+    
+    guard let result1 = sampler[0.0, 0.0] else { XCTFail(); return }
+    Thread.sleep(forTimeInterval: 0.100)
+    guard let result2 = sampler[0.0, 0.0] else { XCTFail(); return }
+    XCTAssertTrue(result2 >= result1 + 0.100)
+    
+    Thread.sleep(forTimeInterval: 0.100)
+    guard let result3 = sampler[0.0, 0.0] else { XCTFail(); return }
+    
+    XCTAssertTrue(result3 >= result2 + 0.100)
+  }
+  
+  func test_tree_generation() {
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
+      .sample(CycleX()),
+      .sample(CycleY()),
+      .combine(Multiply()), // Expected zero at this point.
+      .input(Constant(10.0)),
+      .combine(Add())
+    ])
+    
+    let token_tree = sampler.tokenize()
+    XCTAssertTrue(true)
+  }
 }
+
+
+
+
+

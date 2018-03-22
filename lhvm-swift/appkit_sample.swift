@@ -13,10 +13,10 @@ class SampleView: NSView {
   // NSView.
   func sample() -> AppKitSample {
     return AppKitSample(
-      resolution_x: 100.0,
-      resolution_y: 100.0,
-      mouse_x: 1.0,
-      mouse_y: 1.0,
+      resolution_x: 100,
+      resolution_y: 200,
+      mouse_x: 50,
+      mouse_y: 75,
       time_elapsed: 100.0,
       time_delta: 0.23,
       keys_pressed: [45,46]
