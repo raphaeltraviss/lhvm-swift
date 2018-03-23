@@ -107,10 +107,10 @@ class Lhvm<PlatformSample, SchemaSample, Currency> {
   }
   
   func tokenize() -> StreamNode<StackOp>? {
-    return tokenize_ops(opstack[..<opstack.endIndex]).result
+    return tokenize_ops(opstack[..<opstack.endIndex]).0
   }
   
-  private func tokenize_ops(_ ops: ArraySlice<StackOp>) -> (result: StreamNode<StackOp>?, remaining_ops: ArraySlice<StackOp>) {
+  private func tokenize_ops(_ ops: ArraySlice<StackOp>) -> (StreamNode<StackOp>?, ArraySlice<StackOp>) {
     guard ops.count > 0 else { return (nil, ops) }
     let current_index = ops.endIndex - 1
     let op = ops[current_index]
@@ -118,12 +118,12 @@ class Lhvm<PlatformSample, SchemaSample, Currency> {
     
     switch op {
     case .input, .sample:
-      return (result: StreamNode(op), remaining_ops: new_slice)
+      return (StreamNode(op, at: current_index), new_slice)
     case .map:
       let (next_node, next_ops) = tokenize_ops(new_slice)
       guard next_node != nil else { return ( nil, []) }
-      let node = StreamNode(op, child_nodes: [next_node!])
-      return (result: node, remaining_ops: next_ops)
+      let node = StreamNode(op, at: current_index, child_nodes: [next_node!])
+      return (node, next_ops)
     case .combine:
       let (next_node1, next_ops1) = tokenize_ops(new_slice)
       guard next_node1 != nil else { return ( nil, []) }
@@ -131,8 +131,8 @@ class Lhvm<PlatformSample, SchemaSample, Currency> {
       let (next_node2, next_ops2) = tokenize_ops(next_ops1)
       guard next_node2 != nil else { return ( nil, []) }
       
-      let node = StreamNode(op, child_nodes: [next_node1!, next_node2!])
-      return (result: node, remaining_ops: next_ops2)
+      let node = StreamNode(op, at: current_index, child_nodes: [next_node1!, next_node2!])
+      return (node, next_ops2)
     default: break
     }
     

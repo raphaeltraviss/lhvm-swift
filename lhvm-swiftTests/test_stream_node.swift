@@ -46,4 +46,53 @@ class test_stream_node: XCTestCase {
     XCTAssertTrue(contains_no_maps)
   }
   
+  func test_op_indices() {
+    let sampler = MacLhvm<HeightmapState, Double>(ops: [
+      .input(Constant(0.0)),
+      .input(Constant(1.0)),
+      .input(Constant(2.0)),
+      .input(Constant(3.0)),
+      .input(Constant(4.0)),
+      .combine(Add()),
+      .combine(Add()),
+      .combine(Add()),
+      .combine(Add())
+      ])
+    
+    guard let token_tree = sampler.tokenize() else { XCTFail(); return }
+    
+    guard let (node_8, stack_8) = token_tree.find(predicate: { node in node.stack_index == 8 }),
+    let (node_7, stack_7) = token_tree.find(predicate: { node in node.stack_index == 7 }),
+    let (node_4, stack_4) = token_tree.find(predicate: { node in node.stack_index == 4 }),
+    let (node_0, stack_0) = token_tree.find(predicate: { node in node.stack_index == 0 })
+    
+    
+    else { XCTFail(); return }
+
+    // Check the index, op, and call stack for the first-processed op (at index 8).
+    XCTAssertTrue(node_8.stack_index == 8)
+    // @Swift: the following doesn't work, because if-case is not a normal expression.
+    // XCTAssertTrue(case .combine == node_8)
+    if case .combine  = node_8.op { XCTAssertTrue(true) } else { XCTFail() }
+    XCTAssertTrue(stack_8.count == 0)
+    
+    // Check the second-processed op.
+    XCTAssertTrue(node_7.stack_index == 7)
+    if case .combine  = node_7.op { XCTAssertTrue(true) } else { XCTFail() }
+    XCTAssertTrue(stack_7.count == 1)
+    
+    // Check an op buried in the call stack.
+    XCTAssertTrue(node_4.stack_index == 4)
+    if case .input  = node_4.op { XCTAssertTrue(true) } else { XCTFail() }
+    XCTAssertTrue(stack_4.count == 4)
+    
+    // Check an op deep in the opstack, but shallow on the call stack.
+    XCTAssertTrue(node_0.stack_index == 0)
+    if case .input  = node_0.op { XCTAssertTrue(true) } else { XCTFail() }
+    XCTAssertTrue(stack_0.count == 1) // Tricky!  Op 1 is called in Op 8's search.
+    
+    // Check that a found op's parent, and the fist item in its call stack, are equal.
+    XCTAssertTrue(node_4.parent!.stack_index == stack_4[0].stack_index)
+  }
+  
 }

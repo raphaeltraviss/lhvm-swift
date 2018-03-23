@@ -106,15 +106,6 @@ class lhvm_swiftTests: XCTestCase {
     XCTAssert(abs(actual! - expected) < 0.001)
   }
   
-  func test_unininitialized_appkit_sample() {
-    let sampler = MacLhvm<HeightmapState, Double>(ops: [
-      .sample(ElapsedTime())
-    ])
-    let sample_result = sampler.sample(at: HeightmapState(0.0, 0.0))
-    XCTAssertNotNil(sample_result)
-    XCTAssertEqual(sample_result!, 0.0)
-  }
-  
   func test_heightmap_sample_returns_cycle() {
     let sampler = MacLhvm<HeightmapState, Double>(ops: [
       .sample(CycleX())
@@ -217,6 +208,21 @@ class lhvm_swiftTests: XCTestCase {
     
     XCTAssertFalse(contains_a_map)
     XCTAssertTrue(does_not_contain_map)
+    
+    // Search for an add node: it should find the .combine at index 4.
+    guard let (add_node, _) = token_tree.find(predicate: { node in
+      if case .combine = node.op { return true }
+      return false
+    }) else { XCTFail(); return }
+    XCTAssertTrue(add_node.stack_index == 4)
+    
+    // Search for the first node on the stack--its parent should be the
+    // .combine Multiply at index 2.
+    guard let (first_on_stack, call_stack) = token_tree.find(predicate: { node in
+      return node.stack_index == 0
+    }) else { XCTFail(); return }
+    XCTAssertNotNil(first_on_stack.parent)
+    XCTAssertTrue(first_on_stack.parent!.stack_index == call_stack[0].stack_index)
   }
 }
 
