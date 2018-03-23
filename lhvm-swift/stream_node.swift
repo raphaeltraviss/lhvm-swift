@@ -40,13 +40,19 @@ class StreamNode<ConcreteOpType> {
   }
   
   typealias Predicate = (_ node: StreamNode, _ depth: Int, _ sibling_index: Int, _ siblings: [StreamNode]) -> Bool
+  typealias SimplePredicate = (_ node: StreamNode) -> Bool
   
   // When mapping the tree into a new tree structure, we need to pass the current parent
   // (transformed to the new type) down to the children, so they they can attach a
   // reference to it.
   typealias TreeTransform<T> = (_ node: StreamNode, _ depth: Int, _ sibling_index: Int, _ siblings: [StreamNode], _ parent: T?) -> T
   
-  func every_descendant(predicate: @escaping Predicate) -> Bool {
+  
+  // @Swift: the overloaded simple versions don't work, with trailing closure syntax
+  // OR unnamed parameter syntax, because Swift can't distinguish Predicate from
+  // SimplePredicate, unless it is supplied as a specific argument value.
+  
+  func every(predicate: @escaping Predicate) -> Bool {
     var recursive_predicate: Predicate! // needed for inline recursive closure.
     recursive_predicate = { node, depth, index, siblings in
       // If this node doesn't even pass the test, all bets are off.
@@ -54,7 +60,7 @@ class StreamNode<ConcreteOpType> {
       // If this node passes the test, and has no descendants, then we're good.
       guard node.children.count > 0 else { return true }
       // Otherwise, check that the children also pass the same test, and their children.
-      return node.children.enumerated().reduce(false, { current_result, enumerated_child in
+      return node.children.enumerated().reduce(true, { current_result, enumerated_child in
         let (sibling_index, child_node) = enumerated_child
         let result = recursive_predicate(child_node, depth + 1, sibling_index, node.children)
         // FALSE values in any child will bubble up and override any false values.
@@ -64,8 +70,12 @@ class StreamNode<ConcreteOpType> {
     
     return recursive_predicate(self, 1, 0, [])
   }
+  func every(predicate: @escaping SimplePredicate) -> Bool {
+    let bound: Predicate = { node, _, _, _ in return predicate(node) }
+    return self.every(predicate: bound)
+  }
   
-  func some_descendant(predicate: @escaping Predicate) -> Bool {
+  func some(predicate: @escaping Predicate) -> Bool {
     var recursive_predicate: Predicate! // needed for inline recursive closure.
     recursive_predicate = { node, depth, index, siblings in
       if predicate(node, depth, index, siblings) { return true }
@@ -79,5 +89,9 @@ class StreamNode<ConcreteOpType> {
     }
     
     return recursive_predicate(self, 1, 0, [])
+  }
+  func some(predicate: @escaping SimplePredicate) -> Bool {
+    let bound: Predicate = { node, _, _, _ in return predicate(node) }
+    return self.some(predicate: bound)
   }
 }

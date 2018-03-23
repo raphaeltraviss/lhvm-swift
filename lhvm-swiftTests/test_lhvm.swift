@@ -205,9 +205,18 @@ class lhvm_swiftTests: XCTestCase {
       .combine(Add())
     ])
     
-    let token_tree = sampler.tokenize()
-    // @TODO: once stream .every and .some methods are working, sanity-check our tree.
-    XCTAssertTrue(true)
+    guard let token_tree = sampler.tokenize() else { XCTFail(); return }
+    let contains_a_map = token_tree.some(predicate: { node in
+      if case .map = node.op { return true }
+      return false
+    })
+    let does_not_contain_map = token_tree.every(predicate: { node in
+      if case .map = node.op { return false }
+      return true
+    })
+    
+    XCTAssertFalse(contains_a_map)
+    XCTAssertTrue(does_not_contain_map)
   }
 }
 
