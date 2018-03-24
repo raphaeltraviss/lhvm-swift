@@ -3,20 +3,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 // @Swift: class only exists as a workaround for PAT limitations.
-class Constant<Currency> : ValueStream {
-  typealias SampleOutput = Currency
+public class Constant<Currency> : ValueStream {
+  public typealias SampleOutput = Currency
   
-  var value: Currency
-  var reduce: () -> Currency = { return 1.0 as! Currency}
+  public var value: Currency
+  public var reduce: () -> Currency = { return 1.0 as! Currency}
   
-  init(_ value: Currency) {
+  public init(_ value: Currency) {
     self.value = value
     self.reduce = { return self.value }
   }
 }
 
-final class Number: Constant<Double> {
-  override init(_ value: Double) {
+public final class Number: Constant<Double> {
+  public override init(_ value: Double) {
     super.init(value)
   }
 }

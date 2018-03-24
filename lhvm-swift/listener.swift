@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-struct AppKitSample {
+public struct AppKitSample {
   var resolution_x: Int = 0
   var resolution_y: Int = 0
   var mouse_x: Int = 0
@@ -12,14 +12,14 @@ struct AppKitSample {
   var keys_pressed: [Int] = []
 }
 
-class Listener<PlatformSample> {
+public class Listener<PlatformSample> {
   var report: () -> PlatformSample? = { return nil }
 }
 
 
-final class AppKitListener: Listener<AppKitSample> {
+public final class AppKitListener: Listener<AppKitSample> {
   let start_time = Date()
-  override init() {
+  public override init() {
     super.init()
     self.report = {
       var the_sample = AppKitSample()

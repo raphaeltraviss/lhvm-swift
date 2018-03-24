@@ -8,10 +8,10 @@ import AppKit
 // @TODO: this should be a protocol that we can extend NSView to provide.
 // Maybe even a generic "UISampler", that the NSView implementation can provide.
 // Maybe LHVM could provide this subclass itself: NSViewSampler
-class SampleView: NSView {
+public class SampleView: NSView {
   // @TODO: create methods for getting an AppKitSampleState struct out of the
   // NSView.
-  func sample() -> AppKitSample {
+  public func sample() -> AppKitSample {
     return AppKitSample(
       resolution_x: 100,
       resolution_y: 200,

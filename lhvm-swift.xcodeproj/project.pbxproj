@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		640BA15F2066D4C300696FC4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640BA15E2066D4C300696FC4 /* AppDelegate.swift */; };
+		640BA1612066D4C300696FC4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640BA1602066D4C300696FC4 /* ViewController.swift */; };
+		640BA1632066D4C300696FC4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 640BA1622066D4C300696FC4 /* Assets.xcassets */; };
+		640BA1662066D4C300696FC4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 640BA1642066D4C300696FC4 /* Main.storyboard */; };
+		640BA1722066D4C300696FC4 /* LhvmAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640BA1712066D4C300696FC4 /* LhvmAppUITests.swift */; };
+		640BA17D2066D57C00696FC4 /* HeightmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640BA17C2066D57C00696FC4 /* HeightmapView.swift */; };
+		640BA1892066E34200696FC4 /* lhvm_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64FCE2232045DB9D00BEECDD /* lhvm_swift.framework */; };
+		640BA18A2066E34200696FC4 /* lhvm_swift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 64FCE2232045DB9D00BEECDD /* lhvm_swift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		640EB9A42063F2D00063271B /* stream_node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640EB9A32063F2D00063271B /* stream_node.swift */; };
 		640EB9A620640FE60063271B /* test_stream_node.swift in Sources */ = {isa = PBXBuildFile; fileRef = 640EB9A520640FE60063271B /* test_stream_node.swift */; };
 		64503F942062AA370004BB42 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 64503F932062AA370004BB42 /* LICENSE */; };
@@ -27,6 +35,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		640BA16E2066D4C300696FC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 64FCE21A2045DB9D00BEECDD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 640BA15B2066D4C300696FC4;
+			remoteInfo = LhvmApp;
+		};
+		640BA18B2066E34200696FC4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 64FCE21A2045DB9D00BEECDD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 64FCE2222045DB9D00BEECDD;
+			remoteInfo = "lhvm-swift";
+		};
 		64FCE22E2045DB9D00BEECDD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 64FCE21A2045DB9D00BEECDD /* Project object */;
@@ -36,7 +58,32 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		640BA18D2066E34200696FC4 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				640BA18A2066E34200696FC4 /* lhvm_swift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		640BA15C2066D4C300696FC4 /* LhvmApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LhvmApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		640BA15E2066D4C300696FC4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		640BA1602066D4C300696FC4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		640BA1622066D4C300696FC4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		640BA1652066D4C300696FC4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		640BA1672066D4C300696FC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		640BA1682066D4C300696FC4 /* LhvmApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LhvmApp.entitlements; sourceTree = "<group>"; };
+		640BA16D2066D4C300696FC4 /* LhvmAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LhvmAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		640BA1712066D4C300696FC4 /* LhvmAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LhvmAppUITests.swift; sourceTree = "<group>"; };
+		640BA1732066D4C300696FC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		640BA17C2066D57C00696FC4 /* HeightmapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightmapView.swift; sourceTree = "<group>"; };
 		640EB9A32063F2D00063271B /* stream_node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stream_node.swift; sourceTree = "<group>"; };
 		640EB9A520640FE60063271B /* test_stream_node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_stream_node.swift; sourceTree = "<group>"; };
 		64503F932062AA370004BB42 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -62,6 +109,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		640BA1592066D4C300696FC4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				640BA1892066E34200696FC4 /* lhvm_swift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		640BA16A2066D4C300696FC4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		64FCE21F2045DB9D00BEECDD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -80,6 +142,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		640BA15D2066D4C300696FC4 /* LhvmApp */ = {
+			isa = PBXGroup;
+			children = (
+				640BA15E2066D4C300696FC4 /* AppDelegate.swift */,
+				640BA17C2066D57C00696FC4 /* HeightmapView.swift */,
+				640BA1602066D4C300696FC4 /* ViewController.swift */,
+				640BA1622066D4C300696FC4 /* Assets.xcassets */,
+				640BA1642066D4C300696FC4 /* Main.storyboard */,
+				640BA1672066D4C300696FC4 /* Info.plist */,
+				640BA1682066D4C300696FC4 /* LhvmApp.entitlements */,
+			);
+			path = LhvmApp;
+			sourceTree = "<group>";
+		};
+		640BA1702066D4C300696FC4 /* LhvmAppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				640BA1712066D4C300696FC4 /* LhvmAppUITests.swift */,
+				640BA1732066D4C300696FC4 /* Info.plist */,
+			);
+			path = LhvmAppUITests;
+			sourceTree = "<group>";
+		};
+		640BA1802066E09900696FC4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		6462C7EE2052E1D10040CBB9 /* stream */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,7 +194,10 @@
 				64FCE23D2045DBB400BEECDD /* numberforth_design.md */,
 				64FCE2252045DB9D00BEECDD /* lhvm-swift */,
 				64FCE2302045DB9D00BEECDD /* lhvm-swiftTests */,
+				640BA15D2066D4C300696FC4 /* LhvmApp */,
+				640BA1702066D4C300696FC4 /* LhvmAppUITests */,
 				64FCE2242045DB9D00BEECDD /* Products */,
+				640BA1802066E09900696FC4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,6 +206,8 @@
 			children = (
 				64FCE2232045DB9D00BEECDD /* lhvm_swift.framework */,
 				64FCE22C2045DB9D00BEECDD /* lhvm-swiftTests.xctest */,
+				640BA15C2066D4C300696FC4 /* LhvmApp.app */,
+				640BA16D2066D4C300696FC4 /* LhvmAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -154,6 +251,43 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		640BA15B2066D4C300696FC4 /* LhvmApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 640BA1742066D4C300696FC4 /* Build configuration list for PBXNativeTarget "LhvmApp" */;
+			buildPhases = (
+				640BA1582066D4C300696FC4 /* Sources */,
+				640BA1592066D4C300696FC4 /* Frameworks */,
+				640BA15A2066D4C300696FC4 /* Resources */,
+				640BA18D2066E34200696FC4 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				640BA18C2066E34200696FC4 /* PBXTargetDependency */,
+			);
+			name = LhvmApp;
+			productName = LhvmApp;
+			productReference = 640BA15C2066D4C300696FC4 /* LhvmApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		640BA16C2066D4C300696FC4 /* LhvmAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 640BA1772066D4C300696FC4 /* Build configuration list for PBXNativeTarget "LhvmAppUITests" */;
+			buildPhases = (
+				640BA1692066D4C300696FC4 /* Sources */,
+				640BA16A2066D4C300696FC4 /* Frameworks */,
+				640BA16B2066D4C300696FC4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				640BA16F2066D4C300696FC4 /* PBXTargetDependency */,
+			);
+			name = LhvmAppUITests;
+			productName = LhvmAppUITests;
+			productReference = 640BA16D2066D4C300696FC4 /* LhvmAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		64FCE2222045DB9D00BEECDD /* lhvm-swift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 64FCE2372045DB9D00BEECDD /* Build configuration list for PBXNativeTarget "lhvm-swift" */;
@@ -200,6 +334,15 @@
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Skyleaf Design LLC";
 				TargetAttributes = {
+					640BA15B2066D4C300696FC4 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					640BA16C2066D4C300696FC4 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 640BA15B2066D4C300696FC4;
+					};
 					64FCE2222045DB9D00BEECDD = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0920;
@@ -217,6 +360,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 64FCE2192045DB9D00BEECDD;
 			productRefGroup = 64FCE2242045DB9D00BEECDD /* Products */;
@@ -225,11 +369,29 @@
 			targets = (
 				64FCE2222045DB9D00BEECDD /* lhvm-swift */,
 				64FCE22B2045DB9D00BEECDD /* lhvm-swiftTests */,
+				640BA15B2066D4C300696FC4 /* LhvmApp */,
+				640BA16C2066D4C300696FC4 /* LhvmAppUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		640BA15A2066D4C300696FC4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				640BA1632066D4C300696FC4 /* Assets.xcassets in Resources */,
+				640BA1662066D4C300696FC4 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		640BA16B2066D4C300696FC4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		64FCE2212045DB9D00BEECDD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -248,6 +410,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		640BA1582066D4C300696FC4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				640BA1612066D4C300696FC4 /* ViewController.swift in Sources */,
+				640BA17D2066D57C00696FC4 /* HeightmapView.swift in Sources */,
+				640BA15F2066D4C300696FC4 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		640BA1692066D4C300696FC4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				640BA1722066D4C300696FC4 /* LhvmAppUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		64FCE21E2045DB9D00BEECDD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -279,6 +459,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		640BA16F2066D4C300696FC4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 640BA15B2066D4C300696FC4 /* LhvmApp */;
+			targetProxy = 640BA16E2066D4C300696FC4 /* PBXContainerItemProxy */;
+		};
+		640BA18C2066E34200696FC4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 64FCE2222045DB9D00BEECDD /* lhvm-swift */;
+			targetProxy = 640BA18B2066E34200696FC4 /* PBXContainerItemProxy */;
+		};
 		64FCE22F2045DB9D00BEECDD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 64FCE2222045DB9D00BEECDD /* lhvm-swift */;
@@ -286,7 +476,86 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		640BA1642066D4C300696FC4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				640BA1652066D4C300696FC4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		640BA1752066D4C300696FC4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LhvmApp/LhvmApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = D48QC892LT;
+				INFOPLIST_FILE = LhvmApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.skyleafdesign.LhvmApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		640BA1762066D4C300696FC4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LhvmApp/LhvmApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = D48QC892LT;
+				INFOPLIST_FILE = LhvmApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.skyleafdesign.LhvmApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		640BA1782066D4C300696FC4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = D48QC892LT;
+				INFOPLIST_FILE = LhvmAppUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.skyleafdesign.LhvmAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TEST_TARGET_NAME = LhvmApp;
+			};
+			name = Debug;
+		};
+		640BA1792066D4C300696FC4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = D48QC892LT;
+				INFOPLIST_FILE = LhvmAppUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.skyleafdesign.LhvmAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TEST_TARGET_NAME = LhvmApp;
+			};
+			name = Release;
+		};
 		64FCE2352045DB9D00BEECDD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -336,7 +605,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -390,7 +659,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -479,6 +748,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		640BA1742066D4C300696FC4 /* Build configuration list for PBXNativeTarget "LhvmApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				640BA1752066D4C300696FC4 /* Debug */,
+				640BA1762066D4C300696FC4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		640BA1772066D4C300696FC4 /* Build configuration list for PBXNativeTarget "LhvmAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				640BA1782066D4C300696FC4 /* Debug */,
+				640BA1792066D4C300696FC4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		64FCE21D2045DB9D00BEECDD /* Build configuration list for PBXProject "lhvm-swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

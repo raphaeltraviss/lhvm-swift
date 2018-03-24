@@ -7,7 +7,7 @@
 // Next on the stack, is either a Stream, which will have the parameter value bound to
 // it, or another BindParameter, which will cascade with the current StreamParameter.
 
-enum StreamParameter: CustomStringConvertible {
+public enum StreamParameter: CustomStringConvertible {
   case constant(Double)
   case amplitude(Double)
   case wavelength(Double)
@@ -19,7 +19,7 @@ enum StreamParameter: CustomStringConvertible {
   case sawness(Double)
   case squareness(Double)
   
-  var description: String {
+  public var description: String {
     switch self {
     case .constant(let value): return "constant \(value)"
     case .amplitude(let value): return "amplitude \(value)"

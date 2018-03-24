@@ -57,7 +57,7 @@ class test_stream_node: XCTestCase {
       .combine(Add()),
       .combine(Add()),
       .combine(Add())
-      ])
+    ])
     
     guard let token_tree = sampler.tokenize() else { XCTFail(); return }
     

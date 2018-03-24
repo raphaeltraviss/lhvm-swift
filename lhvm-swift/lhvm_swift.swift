@@ -6,44 +6,45 @@ import Foundation
 
 
 
-final class MacLhvm<SchemaSample, Currency>: Lhvm<AppKitSample, SchemaSample, Currency> {
+// @TODO: we can't seem to use this class in consumer apps.
+public final class MacLhvm<SchemaSample, Currency>: Lhvm<AppKitSample, SchemaSample, Currency> {
   override init(ops the_ops: OpStack) {
     super.init(ops: the_ops)
     self.platform_listener = AppKitListener()
   }
 }
 
-class Lhvm<PlatformSample, SchemaSample, Currency> {
-  typealias StackOp = StreamOp<PlatformSample, SchemaSample, Currency>
-  typealias OpStack = [StackOp]
-  typealias ComputeKernel = (PlatformSample, SchemaSample) -> Currency
+public class Lhvm<PlatformSample, SchemaSample, Currency> {
+  public typealias StackOp = StreamOp<PlatformSample, SchemaSample, Currency>
+  public typealias OpStack = [StackOp]
+  public typealias ComputeKernel = (PlatformSample, SchemaSample) -> Currency
   
   
   // MARK: public API.
   
-  static func parse(_ program: String) -> OpStack? {
+  public static func parse(_ program: String) -> OpStack? {
     return OpStack()
   }
   
-  func attach(_ listener: Listener<PlatformSample>) {
+  public func attach(_ listener: Listener<PlatformSample>) {
     self.platform_listener = listener
   }
   
-  func sample(at app_sample: SchemaSample) -> Currency? {
+  public func sample(at app_sample: SchemaSample) -> Currency? {
     guard let platform_sample = platform_listener.report() else { return nil }
     guard let kernel = self.kernel else { return nil }
     return kernel(platform_sample, app_sample)
   }
   
-  func sample(buffer: [SchemaSample]) -> [Currency?] {
+  public func sample(buffer: [SchemaSample]) -> [Currency?] {
     return buffer.map({ sample(at: $0) })
   }
 
-  init(ops the_ops: OpStack) {
+  public init(ops the_ops: OpStack) {
     self.opstack = the_ops
     self.kernel = evaluate()
   }
-  convenience init?(program: String) {
+  public convenience init?(program: String) {
     guard let the_ops = Lhvm.parse(program) else { return nil }
     self.init(ops: the_ops)
   }
@@ -53,18 +54,18 @@ class Lhvm<PlatformSample, SchemaSample, Currency> {
   
   // @TODO: ops should be private... after I implement add/remove Collection API.
   // Evaluate and cache a new kernel, every time the stack is mutated.
-  var opstack = OpStack() {
+  public var opstack = OpStack() {
     didSet {
       self.kernel = evaluate()
     }
   }
   
-  var platform_listener: Listener<PlatformSample> = Listener<PlatformSample>()
+  public var platform_listener: Listener<PlatformSample> = Listener<PlatformSample>()
   
   // Cached, evaluated kernel from the OpStack.
-  var kernel: ComputeKernel?
+  public var kernel: ComputeKernel?
   
-  func evaluate() -> ComputeKernel? {
+  public func evaluate() -> ComputeKernel? {
     return evaluate_ops(opstack[..<opstack.endIndex]).result
   }
   
@@ -106,7 +107,7 @@ class Lhvm<PlatformSample, SchemaSample, Currency> {
     return (nil, [])
   }
   
-  func tokenize() -> StreamNode<StackOp>? {
+  public func tokenize() -> StreamNode<StackOp>? {
     return tokenize_ops(opstack[..<opstack.endIndex]).0
   }
   
@@ -147,28 +148,28 @@ class Lhvm<PlatformSample, SchemaSample, Currency> {
 
 
 extension Lhvm: Collection {
-  typealias Index = Int
-  typealias Element = StackOp
+  public typealias Index = Int
+  public typealias Element = StackOp
   
-  var startIndex: Index { return opstack.startIndex }
-  var endIndex: Index { return opstack.endIndex }
+  public var startIndex: Index { return opstack.startIndex }
+  public var endIndex: Index { return opstack.endIndex }
 
-  subscript(index: Index) -> Iterator.Element {
+  public subscript(index: Index) -> Iterator.Element {
     get { return opstack[index] }
   }
   
   // Custom subscript by schema sample returns the computed sample result.
-  subscript(index: SchemaSample) -> Currency? {
+  public subscript(index: SchemaSample) -> Currency? {
     get { return self.sample(at: index) }
   }
 
-  func index(after i: Int) -> Int {
+  public func index(after i: Int) -> Int {
     return opstack.index(after: i)
   }
 }
 
 extension Lhvm where SchemaSample == HeightmapState {
-  subscript(x_cycle: Double, y_cycle: Double) -> Currency? {
+  public subscript(x_cycle: Double, y_cycle: Double) -> Currency? {
     get {
       return self.sample(at: HeightmapState(x_cycle, y_cycle))
     }

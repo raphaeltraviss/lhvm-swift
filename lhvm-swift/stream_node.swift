@@ -4,7 +4,7 @@
 
 import Foundation
 
-class StreamNode<ConcreteOpType> {
+public class StreamNode<ConcreteOpType> {
   var op: ConcreteOpType
   var stack_index: Int
   
