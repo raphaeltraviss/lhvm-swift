@@ -7,8 +7,8 @@ import Foundation
 
 
 // @TODO: we can't seem to use this class in consumer apps.
-public final class MacLhvm<SchemaSample, Currency>: Lhvm<AppKitSample, SchemaSample, Currency> {
-  override init(ops the_ops: OpStack) {
+public final class MacLhvm<SchemaSample, Currency>: Lhvm<AppKitSample<Double>, SchemaSample, Currency> {
+  public override init(ops the_ops: OpStack) {
     super.init(ops: the_ops)
     self.platform_listener = AppKitListener()
   }
@@ -168,10 +168,17 @@ extension Lhvm: Collection {
   }
 }
 
-extension Lhvm where SchemaSample == HeightmapState {
+extension Lhvm where SchemaSample == HeightmapState<Double> {
   public subscript(x_cycle: Double, y_cycle: Double) -> Currency? {
     get {
-      return self.sample(at: HeightmapState(x_cycle, y_cycle))
+      return self.sample(at: HeightmapState<Double>(x_cycle, y_cycle))
+    }
+  }
+}
+extension Lhvm where SchemaSample == HeightmapState<CGFloat> {
+  public subscript(x_cycle: CGFloat, y_cycle: CGFloat) -> Currency? {
+    get {
+      return self.sample(at: HeightmapState<CGFloat>(x_cycle, y_cycle))
     }
   }
 }

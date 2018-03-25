@@ -6,10 +6,9 @@ import Cocoa
 import lhvm_swift
 
 class ViewController: NSViewController {
-  typealias Sampler = Lhvm<AppKitSample, HeightmapState, Double>
+  typealias Sampler = MacLhvm<HeightmapState<Double>, Double>
   
-  var sampler: Lhvm<AppKitSample, HeightmapState, Double>!
-  
+  var sampler: MacLhvm<HeightmapState<Double>, Double>!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -18,16 +17,18 @@ class ViewController: NSViewController {
   
     let ops = Sampler.OpStack([
       .sample(ElapsedTime()),
+      .map(SimpleSine()),
       .map(SimpleSine())
     ])
-    
+
     self.sampler = Sampler(ops: ops)
-    self.sampler.platform_listener = AppKitListener()
     heightmap.get_sample = { x, y in return self.sampler[x, y] }
     
     
     // Do any additional setup after loading the view.
   }
+  
+  // @TODO: listen for events, fill out local state, and forward them to the Listener.
 
   override var representedObject: Any? {
     didSet {

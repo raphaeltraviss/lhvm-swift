@@ -47,17 +47,18 @@ class test_stream_node: XCTestCase {
   }
   
   func test_op_indices() {
-    let sampler = MacLhvm<HeightmapState, Double>(ops: [
-      .input(Constant(0.0)),
-      .input(Constant(1.0)),
-      .input(Constant(2.0)),
-      .input(Constant(3.0)),
-      .input(Constant(4.0)),
+    var ops: [StreamOp<AppKitSample<Double>, HeightmapState<Double>, Double>] = [
+      .input(Constant<Double>(0.0)),
+      .input(Constant<Double>(1.0)),
+      .input(Constant<Double>(2.0)),
+      .input(Constant<Double>(3.0)),
+      .input(Constant<Double>(4.0)),
       .combine(Add()),
       .combine(Add()),
       .combine(Add()),
       .combine(Add())
-    ])
+    ]
+    let sampler: MacLhvm<HeightmapState<Double>, Double> = MacLhvm<HeightmapState<Double>, Double>(ops: ops)
     
     guard let token_tree = sampler.tokenize() else { XCTFail(); return }
     

@@ -20,3 +20,9 @@ public final class Number: Constant<Double> {
     super.init(value)
   }
 }
+
+public final class GraphicsNumber: Constant<CGFloat> {
+  public override init(_ value: CGFloat) {
+    super.init(value)
+  }
+}
